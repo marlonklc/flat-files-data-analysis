@@ -1,7 +1,7 @@
 package com.marlonklc.parser;
 
 import com.marlonklc.model.BusinessArea;
-import com.marlonklc.model.CNPJ;
+import com.marlonklc.model.Cnpj;
 import com.marlonklc.model.Customer;
 
 import java.util.StringTokenizer;
@@ -16,7 +16,7 @@ public class CustomerParser implements Parser<Customer> {
     public Customer parse(String data) {
         StringTokenizer tokenizer = split(data);
 
-        CNPJ cnpj = CNPJ.of(tokenizer.nextToken());
+        Cnpj cnpj = Cnpj.of(tokenizer.nextToken());
         String name = tokenizer.nextToken();
         BusinessArea businessArea = BusinessArea.of(tokenizer.nextToken());
 

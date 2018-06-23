@@ -1,6 +1,6 @@
 package com.marlonklc.parser;
 
-import com.marlonklc.model.CPF;
+import com.marlonklc.model.Cpf;
 import com.marlonklc.model.Salesman;
 
 import java.math.BigDecimal;
@@ -16,7 +16,7 @@ public class SalesmanParser implements Parser<Salesman> {
     public Salesman parse(String data) {
         StringTokenizer tokenizer = split(data);
 
-        CPF cpf = CPF.of(tokenizer.nextToken());
+        Cpf cpf = Cpf.of(tokenizer.nextToken());
         String name = tokenizer.nextToken();
         BigDecimal salary = new BigDecimal(tokenizer.nextToken());
 

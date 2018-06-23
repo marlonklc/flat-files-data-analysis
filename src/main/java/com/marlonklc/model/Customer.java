@@ -6,17 +6,17 @@ import java.util.Objects;
 
 public class Customer {
 
-    private final CNPJ cnpj;
+    private final Cnpj cnpj;
     private final String name;
     private final BusinessArea businessArea;
 
-    private Customer(CNPJ cnpj, String name, BusinessArea businessArea) {
+    private Customer(Cnpj cnpj, String name, BusinessArea businessArea) {
         this.cnpj = cnpj;
         this.name = name;
         this.businessArea = businessArea;
     }
 
-    public static Customer of(CNPJ cnpj, String name, BusinessArea businessArea) {
+    public static Customer of(Cnpj cnpj, String name, BusinessArea businessArea) {
         Assert.notNull(cnpj, "Customer 'cnpj' cannot be null!");
         Assert.hasText(name, "Customer 'name' cannot be null");
         Assert.notNull(businessArea, "Customer 'businessArea' cannot be null!");

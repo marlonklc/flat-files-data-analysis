@@ -7,17 +7,17 @@ import java.util.Objects;
 
 public class Salesman {
 
-    private final CPF cpf;
+    private final Cpf cpf;
     private final String name;
     private final BigDecimal salary;
 
-    private Salesman(CPF cpf, String name, BigDecimal salary) {
+    private Salesman(Cpf cpf, String name, BigDecimal salary) {
         this.cpf = cpf;
         this.name = name;
         this.salary = salary;
     }
 
-    public static Salesman of(CPF cpf, String name, BigDecimal salary) {
+    public static Salesman of(Cpf cpf, String name, BigDecimal salary) {
         Assert.notNull(cpf, "Salesman 'cpf' cannot be null!");
         Assert.hasText(name, "Salesman 'name' cannot be null!");
         Assert.notNull(salary, "Salesman 'salary' cannot be null!");

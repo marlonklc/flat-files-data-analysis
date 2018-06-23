@@ -57,7 +57,7 @@ public class FilesProcessorScheduler {
 
     private void processFile(Path path) {
         try {
-            DataAnalysis dataAnalysis = extractDataOfFile(path);
+            DataAnalysis dataAnalysis = extractDataAnalysis(path);
 
             processDataAndFinish(path, dataAnalysis);
         } catch (IOException ex) {
@@ -65,7 +65,7 @@ public class FilesProcessorScheduler {
         }
     }
 
-    private DataAnalysis extractDataOfFile(Path path) throws IOException {
+    private DataAnalysis extractDataAnalysis(Path path) throws IOException {
         log.debug("Started to extract data of file: " + path.getFileName());
 
         return extractDataAnalysisService.processFile(path);

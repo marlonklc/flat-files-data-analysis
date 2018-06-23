@@ -4,25 +4,25 @@ import org.springframework.util.Assert;
 
 import java.util.Objects;
 
-public class CNPJ {
+public class Cnpj {
 
     private final String cnpj;
 
-    private CNPJ(String cnpj) {
+    private Cnpj(String cnpj) {
         this.cnpj = cnpj;
     }
 
-    public static CNPJ of(String cnpj) {
+    public static Cnpj of(String cnpj) {
         Assert.hasText(cnpj, "cnpj must be defined!");
 
-        return new CNPJ(cnpj);
+        return new Cnpj(cnpj);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CNPJ cnpj1 = (CNPJ) o;
+        Cnpj cnpj1 = (Cnpj) o;
         return Objects.equals(cnpj, cnpj1.cnpj);
     }
 
@@ -33,7 +33,7 @@ public class CNPJ {
 
     @Override
     public String toString() {
-        return "CNPJ{" +
+        return "Cnpj{" +
                 "cnpj='" + cnpj + '\'' +
                 '}';
     }
