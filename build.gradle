@@ -15,8 +15,13 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'com.marlonklc'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 sourceCompatibility = 1.8
+
+jar {
+  baseName = 'data-analysis'
+  version = '0.0.1'
+}
 
 repositories {
   mavenCentral()

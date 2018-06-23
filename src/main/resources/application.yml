@@ -1,9 +1,19 @@
-app.job.scheduler.delay=5000
-app.job.scheduler.interval=5000
-app.files.directory.in=${user.home}/data/in
-app.files.directory.out=${user.home}/data/out
+app:
+  job:
+    scheduler:
+      delay: 5000
+      interval: 5000
 
-logging.level.com.marlonklc=DEBUG
+  files:
+    directory:
+      in: ${user.home}/data/in
+      out: ${user.home}/data/out
 
-app.filename.readonly=.dat
-app.filename.done=.done.dat
+  filename:
+    readonly: .dat
+    done: .done.dat
+
+logging:
+  level:
+    com:
+      marlonklc: DEBUG
