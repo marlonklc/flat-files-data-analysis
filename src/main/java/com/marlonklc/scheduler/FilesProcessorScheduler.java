@@ -1,6 +1,8 @@
 package com.marlonklc.scheduler;
 
-import com.marlonklc.service.FileProcessService;
+import com.marlonklc.factory.SummaryFactory;
+import com.marlonklc.model.DataAnalysis;
+import com.marlonklc.service.ExtractDataAnalysisService;
 import com.marlonklc.service.FilesStoreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +15,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.util.function.Predicate;
 
 @Component
@@ -31,7 +32,7 @@ public class FilesProcessorScheduler {
     private FilesStoreService filesStoreService;
 
     @Autowired
-    private FileProcessService fileProcessService;
+    private ExtractDataAnalysisService extractDataAnalysisService;
 
     @Scheduled(initialDelayString = "${app.job.scheduler.delay}", fixedRateString = "${app.job.scheduler.interval}")
     public void startProcessFiles() {
@@ -56,24 +57,32 @@ public class FilesProcessorScheduler {
 
     private void processFile(Path path) {
         try {
-            log.debug("Started to process file: " + path.getFileName());
+            DataAnalysis dataAnalysis = extractDataOfFile(path);
 
-            // do process file service
-            fileProcessService.processFile(path);
-
-            String filenameDone = filesStoreService.getFilenameDone(path);
-
-            Path pathOut = Paths.get(directoryOut, filenameDone);
-
-            // write data analysis
-            Files.write(pathOut, ("finish process file:" + filenameDone + "\n" + LocalDateTime.now().toString()).getBytes());
-
-            filesStoreService.store(path);
-
-            log.debug("Finished process file: " + path.getFileName());
+            processDataAndFinish(path, dataAnalysis);
         } catch (IOException ex) {
             log.error("Error on process file", ex);
         }
+    }
+
+    private DataAnalysis extractDataOfFile(Path path) throws IOException {
+        log.debug("Started to extract data of file: " + path.getFileName());
+
+        return extractDataAnalysisService.processFile(path);
+    }
+
+    private void processDataAndFinish(Path path, DataAnalysis dataAnalysis) throws IOException {
+        String filenameDone = filesStoreService.getFilenameDone(path);
+
+        Path pathOut = Paths.get(directoryOut, filenameDone);
+
+        SummaryFactory summaryFactory = SummaryFactory.ofDefault(dataAnalysis);
+
+        Files.write(pathOut, summaryFactory.getSummary());
+
+        filesStoreService.store(path);
+
+        log.debug("Finished process file: " + path.getFileName());
     }
 
     private boolean checkExistDirectories() {

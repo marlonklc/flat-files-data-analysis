@@ -2,6 +2,7 @@ package com.marlonklc.model;
 
 import org.springframework.util.Assert;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,6 +24,21 @@ public class Sale {
         Assert.hasText(salesmanName, "Sale 'salesmanName' cannot be null!");
 
         return new Sale(id, salesItems, salesmanName);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getSalesmanName() {
+        return salesmanName;
+    }
+
+    public BigDecimal getTotal() {
+        return salesItems.stream()
+                .map(SaleItem::getTotal)
+                .reduce(BigDecimal::add)
+                .orElse(BigDecimal.ZERO);
     }
 
     @Override
