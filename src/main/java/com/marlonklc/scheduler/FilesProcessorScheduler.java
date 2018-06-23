@@ -1,5 +1,6 @@
 package com.marlonklc.scheduler;
 
+import com.marlonklc.service.FileProcessService;
 import com.marlonklc.service.FilesStoreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +17,9 @@ import java.time.LocalDateTime;
 import java.util.function.Predicate;
 
 @Component
-public class FileProcessorScheduler {
+public class FilesProcessorScheduler {
 
-    private static final Logger log = LoggerFactory.getLogger(FileProcessorScheduler.class);
+    private static final Logger log = LoggerFactory.getLogger(FilesProcessorScheduler.class);
 
     @Value("${app.files.directory.in}")
     private String directoryIn;
@@ -28,6 +29,9 @@ public class FileProcessorScheduler {
 
     @Autowired
     private FilesStoreService filesStoreService;
+
+    @Autowired
+    private FileProcessService fileProcessService;
 
     @Scheduled(initialDelayString = "${app.job.scheduler.delay}", fixedRateString = "${app.job.scheduler.interval}")
     public void startProcessFiles() {
@@ -55,7 +59,7 @@ public class FileProcessorScheduler {
             log.debug("Started to process file: " + path.getFileName());
 
             // do process file service
-            // TODO - do stuff
+            fileProcessService.processFile(path);
 
             String filenameDone = filesStoreService.getFilenameDone(path);
 
