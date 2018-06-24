@@ -13,7 +13,7 @@ public class ParserFactory {
             return SalesmanParser.of();
         } else if (DataType.CUSTOMER.isEquals(type)) {
             return CustomerParser.of();
-        } else if( DataType.SALES.isEquals(type)) {
+        } else if( DataType.SALE.isEquals(type)) {
             return SaleParser.of();
         }
 

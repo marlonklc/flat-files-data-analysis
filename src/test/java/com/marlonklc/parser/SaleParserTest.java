@@ -1,7 +1,6 @@
 package com.marlonklc.parser;
 
 import com.marlonklc.model.Sale;
-import com.marlonklc.model.Salesman;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,8 +9,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.math.BigDecimal;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SaleParserTest {

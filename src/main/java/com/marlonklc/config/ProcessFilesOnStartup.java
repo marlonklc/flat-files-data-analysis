@@ -15,7 +15,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Component
-@Order(99)
 public class ProcessFilesOnStartup {
 
     private static final Logger log = LoggerFactory.getLogger(ProcessFilesOnStartup.class);

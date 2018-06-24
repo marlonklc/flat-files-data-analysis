@@ -4,17 +4,21 @@ public enum DataType {
 
     SALESMAN("001"),
     CUSTOMER("002"),
-    SALES("003"),
+    SALE("003"),
     ;
 
-    protected final String value;
+    private final String value;
 
     DataType(String value) {
         this.value = value;
     }
 
-    public boolean isEquals(String line) {
-        return value.equals(line);
+    public String getValue() {
+        return value;
+    }
+
+    public boolean isEquals(String type) {
+        return value.equals(type);
     }
 
 }

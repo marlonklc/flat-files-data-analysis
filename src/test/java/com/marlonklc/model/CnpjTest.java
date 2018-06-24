@@ -43,7 +43,6 @@ public class CnpjTest {
         Cnpj cnpj2 = Cnpj.of(stringCnpj1);
 
         assertEquals(cnpj1, cnpj2);
-        assertEquals(cnpj1.getValue(), cnpj2.getValue());
     }
 
     @Test
@@ -52,7 +51,6 @@ public class CnpjTest {
         Cnpj cnpj2 = Cnpj.of(stringCnpj2);
 
         assertNotEquals(cnpj1, cnpj2);
-        assertNotEquals(cnpj1.getValue(), cnpj2.getValue());
     }
 
 }
