@@ -4,10 +4,10 @@ import com.marlonklc.factory.SummaryFactory;
 import com.marlonklc.model.DataAnalysis;
 import com.marlonklc.service.ExtractDataAnalysisService;
 import com.marlonklc.service.FilesStoreService;
+import com.marlonklc.util.FilesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -20,13 +20,10 @@ import java.util.function.Predicate;
 @Component
 public class FilesProcessorScheduler {
 
-    private static final Logger log = LoggerFactory.getLogger(FilesProcessorScheduler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FilesProcessorScheduler.class);
 
-    @Value("${app.files.directory.in}")
-    private String directoryIn;
-
-    @Value("${app.files.directory.out}")
-    private String directoryOut;
+    @Autowired
+    private FilesUtil filesUtil;
 
     @Autowired
     private FilesStoreService filesStoreService;
@@ -37,63 +34,51 @@ public class FilesProcessorScheduler {
     @Scheduled(initialDelayString = "${app.job.scheduler.delay}", fixedRateString = "${app.job.scheduler.interval}")
     public void startProcessFiles() {
         try {
-            if (checkExistDirectories()) {
-                log.debug("Started processing of the files...");
+            if (filesStoreService.checkExistDirectories()) {
+                LOG.debug(">> Started processing of the files...");
 
-                Path pathIn = Paths.get(directoryIn);
+                Path pathIn = Paths.get(filesUtil.getDirectoryIn());
 
                 Files.list(pathIn)
-                        .filter(isValidAndNew())
+                        .filter(fileIsValidAndNew())
                         .forEach(this::processFile);
+
+                LOG.debug(">> Finished processing of the files!");
             }
         } catch (IOException ex) {
-            log.error("Error on start process files", ex);
+            LOG.error("Error on start process files", ex);
         }
     }
 
-    private Predicate<Path> isValidAndNew() {
-        return path -> filesStoreService.isValidFile(path) && filesStoreService.isNewFile(path);
+    private Predicate<Path> fileIsValidAndNew() {
+        return path -> filesUtil.isValidFile(path) && filesStoreService.isNewFile(path);
     }
 
     private void processFile(Path path) {
         try {
-            DataAnalysis dataAnalysis = extractDataAnalysis(path);
+            LOG.debug("Extracting data of file: " + path.getFileName());
 
-            processDataAndFinish(path, dataAnalysis);
+            DataAnalysis dataAnalysis = extractDataAnalysisService.processFile(path);
+
+            SummaryFactory summaryFactory = SummaryFactory.ofDefault(dataAnalysis);
+
+            processStore(path, summaryFactory);
         } catch (IOException ex) {
-            log.error("Error on process file", ex);
+            LOG.error("Error on process file", ex);
         }
     }
 
-    private DataAnalysis extractDataAnalysis(Path path) throws IOException {
-        log.debug("Started to extract data of file: " + path.getFileName());
+    private void processStore(Path path, SummaryFactory summaryFactory) throws IOException {
+        String filenameDone = filesUtil.getFilenameDone(path);
 
-        return extractDataAnalysisService.processFile(path);
-    }
-
-    private void processDataAndFinish(Path path, DataAnalysis dataAnalysis) throws IOException {
-        String filenameDone = filesStoreService.getFilenameDone(path);
-
-        Path pathOut = Paths.get(directoryOut, filenameDone);
-
-        SummaryFactory summaryFactory = SummaryFactory.ofDefault(dataAnalysis);
+        Path pathOut = Paths.get(filesUtil.getDirectoryOut(), filenameDone);
 
         Files.write(pathOut, summaryFactory.getSummary());
 
+        LOG.debug("Writed on file: " + filenameDone);
+
         filesStoreService.store(path);
 
-        log.debug("Finished process file: " + path.getFileName());
-    }
-
-    private boolean checkExistDirectories() {
-        Path pathIn = Paths.get(directoryIn);
-        Path pathOut = Paths.get(directoryOut);
-
-        if (Files.notExists(pathIn) || Files.notExists(pathOut)) {
-            log.warn("Both in/out directories must exists!");
-            return false;
-        }
-
-        return true;
+        LOG.debug("Stored file: " + path.getFileName());
     }
 }

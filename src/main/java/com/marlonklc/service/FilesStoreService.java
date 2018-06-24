@@ -1,41 +1,44 @@
 package com.marlonklc.service;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.marlonklc.util.FilesUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class FilesStoreService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(FilesStoreService.class);
+
     private List<String> filesDone = new ArrayList<>();
 
-    @Value("${app.filename.readonly}")
-    private String filenameReadonly;
-
-    @Value("${app.filename.done}")
-    private String filenameDone;
+    @Autowired
+    private FilesUtil filesUtil;
 
     public void store(Path path) {
-        filesDone.add(getFilenameDone(path));
-    }
-
-    public String getFilenameDone(Path path) {
-        return getFilenameWithoutExtension(path) + filenameDone;
-    }
-
-    private String getFilenameWithoutExtension(Path path) {
-        String fileName = path.getFileName().toString();
-        return fileName.substring(0, fileName.length() - filenameReadonly.length());
-    }
-
-    public boolean isValidFile(Path path) {
-        return path.getFileName().toString().endsWith(filenameReadonly);
+        filesDone.add(path.getFileName().toString());
     }
 
     public boolean isNewFile(Path path) {
-        return !filesDone.contains(getFilenameDone(path));
+        return !filesDone.contains(path.getFileName().toString());
+    }
+
+    public boolean checkExistDirectories() {
+        Path pathIn = Paths.get(filesUtil.getDirectoryIn());
+        Path pathOut = Paths.get(filesUtil.getDirectoryOut());
+
+        if (Files.notExists(pathIn) || Files.notExists(pathOut)) {
+            LOG.warn("Both in/out directories must exists!");
+            return false;
+        }
+
+        return true;
     }
 }

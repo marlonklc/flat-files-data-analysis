@@ -2,7 +2,7 @@ package com.marlonklc.summary;
 
 import com.marlonklc.model.DataAnalysis;
 
-public class AmountClientesSummary implements Summary {
+public class AmountClientsSummary implements Summary {
 
     @Override
     public String generate(DataAnalysis dataAnalysis) {

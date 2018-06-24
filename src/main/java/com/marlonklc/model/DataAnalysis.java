@@ -4,29 +4,29 @@ import java.util.List;
 
 public class DataAnalysis {
 
-    List<Object> customers;
-    List<Object> salesman;
-    List<Object> sales;
+    private List<Customer> customers;
+    private List<Salesman> salesman;
+    private List<Sale> sales;
 
-    private DataAnalysis(List<Object> customers, List<Object> salesman, List<Object> sales) {
+    private DataAnalysis(List<Customer> customers, List<Salesman> salesman, List<Sale> sales) {
         this.customers = customers;
         this.salesman = salesman;
         this.sales = sales;
     }
 
-    public static DataAnalysis of(List<Object> customers, List<Object> salesman, List<Object> sales) {
+    public static DataAnalysis of(List<Customer> customers, List<Salesman> salesman, List<Sale> sales) {
         return new DataAnalysis(customers, salesman, sales);
     }
 
-    public List<Object> getCustomers() {
+    public List<Customer> getCustomers() {
         return customers;
     }
 
-    public List<Object> getSalesman() {
+    public List<Salesman> getSalesman() {
         return salesman;
     }
 
-    public List<Object> getSales() {
+    public List<Sale> getSales() {
         return sales;
     }
 }

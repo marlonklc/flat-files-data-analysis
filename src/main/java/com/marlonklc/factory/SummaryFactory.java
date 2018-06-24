@@ -1,7 +1,7 @@
 package com.marlonklc.factory;
 
 import com.marlonklc.model.DataAnalysis;
-import com.marlonklc.summary.AmountClientesSummary;
+import com.marlonklc.summary.AmountClientsSummary;
 import com.marlonklc.summary.AmountSalesmanSummary;
 import com.marlonklc.summary.MostExpensiveSaleSummary;
 import com.marlonklc.summary.Summary;
@@ -22,7 +22,7 @@ public class SummaryFactory {
 
     public static SummaryFactory ofDefault(DataAnalysis dataAnalysis) {
         SummaryFactory summaryFactory = new SummaryFactory(dataAnalysis);
-        summaryFactory.addSummary(new AmountClientesSummary());
+        summaryFactory.addSummary(new AmountClientsSummary());
         summaryFactory.addSummary(new AmountSalesmanSummary());
         summaryFactory.addSummary(new MostExpensiveSaleSummary());
         summaryFactory.addSummary(new WorstSalesmanSummary());

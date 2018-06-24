@@ -1,17 +1,11 @@
 package com.marlonklc.service;
 
-import com.marlonklc.domain.DataType;
 import com.marlonklc.factory.ParserFactory;
-import com.marlonklc.factory.SummaryFactory;
 import com.marlonklc.model.Customer;
 import com.marlonklc.model.DataAnalysis;
 import com.marlonklc.model.Sale;
 import com.marlonklc.model.Salesman;
-import com.marlonklc.parser.Parser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
@@ -31,9 +25,9 @@ public class ExtractDataAnalysisService {
                 .map(this::parseLine)
                 .collect(Collectors.groupingBy(Object::getClass));
 
-        List<Object> customers = modelsMap.get(Customer.class);
-        List<Object> salesman = modelsMap.get(Salesman.class);
-        List<Object> sales = modelsMap.get(Sale.class);
+        List<Customer> customers = (List) modelsMap.get(Customer.class);
+        List<Salesman> salesman = (List) modelsMap.get(Salesman.class);
+        List<Sale> sales = (List) modelsMap.get(Sale.class);
 
         return DataAnalysis.of(customers, salesman, sales);
     }

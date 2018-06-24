@@ -22,6 +22,8 @@ public class Salesman {
         Assert.hasText(name, "Salesman 'name' cannot be null!");
         Assert.notNull(salary, "Salesman 'salary' cannot be null!");
 
+        if (salary.compareTo(BigDecimal.ZERO) <= 0) throw new IllegalArgumentException("Salesman 'salary' must be higher than zero!");
+
         return new Salesman(cpf, name, salary);
     }
 
