@@ -30,6 +30,10 @@ public class Sale {
         return id;
     }
 
+    public List<SaleItem> getSalesItems() {
+        return salesItems;
+    }
+
     public String getSalesmanName() {
         return salesmanName;
     }

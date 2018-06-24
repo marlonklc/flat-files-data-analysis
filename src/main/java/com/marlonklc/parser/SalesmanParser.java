@@ -16,6 +16,8 @@ public class SalesmanParser implements Parser<Salesman> {
     public Salesman parse(String data) {
         StringTokenizer tokenizer = split(data);
 
+        if(tokenizer.countTokens() < 3) throw new IllegalArgumentException("SalesmanParser: data has less parameters!");
+
         Cpf cpf = Cpf.of(tokenizer.nextToken());
         String name = tokenizer.nextToken();
         BigDecimal salary = new BigDecimal(tokenizer.nextToken());

@@ -18,6 +18,10 @@ public class Cpf {
         return new Cpf(cpf);
     }
 
+    public String getValue() {
+        return cpf;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

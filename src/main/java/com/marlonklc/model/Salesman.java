@@ -17,6 +17,18 @@ public class Salesman {
         this.salary = salary;
     }
 
+    public Cpf getCpf() {
+        return cpf;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public BigDecimal getSalary() {
+        return salary;
+    }
+
     public static Salesman of(Cpf cpf, String name, BigDecimal salary) {
         Assert.notNull(cpf, "Salesman 'cpf' cannot be null!");
         Assert.hasText(name, "Salesman 'name' cannot be null!");

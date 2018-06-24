@@ -17,6 +17,8 @@ public class SaleParser implements Parser<Sale> {
     public Sale parse(String data) {
         StringTokenizer tokenizer =  split(data);
 
+        if(tokenizer.countTokens() < 3) throw new IllegalArgumentException("SaleParser: data has less parameters!");
+
         Long id = Long.valueOf(tokenizer.nextToken());
         List<SaleItem> saleItems = parseSaleItems(tokenizer.nextToken());
         String salesmanName = tokenizer.nextToken();

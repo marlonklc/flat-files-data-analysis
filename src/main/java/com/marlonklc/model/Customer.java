@@ -24,6 +24,18 @@ public class Customer {
         return new Customer(cnpj, name, businessArea);
     }
 
+    public Cnpj getCnpj() {
+        return cnpj;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public BusinessArea getBusinessArea() {
+        return businessArea;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

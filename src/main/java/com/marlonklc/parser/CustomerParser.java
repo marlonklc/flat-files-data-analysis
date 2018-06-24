@@ -16,6 +16,8 @@ public class CustomerParser implements Parser<Customer> {
     public Customer parse(String data) {
         StringTokenizer tokenizer = split(data);
 
+        if(tokenizer.countTokens() < 3) throw new IllegalArgumentException("CustomerParser: data has less parameters!");
+
         Cnpj cnpj = Cnpj.of(tokenizer.nextToken());
         String name = tokenizer.nextToken();
         BusinessArea businessArea = BusinessArea.of(tokenizer.nextToken());

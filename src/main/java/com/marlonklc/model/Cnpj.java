@@ -18,6 +18,10 @@ public class Cnpj {
         return new Cnpj(cnpj);
     }
 
+    public String getValue() {
+        return cnpj;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
