@@ -1,4 +1,4 @@
-https://travis-ci.org/marlonklc/flat-files-data-analysis.svg?branch=master
+[![Build Status](https://travis-ci.org/marlonklc/flat-files-data-analysis.svg?branch=master)](https://travis-ci.org/marlonklc/flat-files-data-analysis)
 
 # flat-files-data-analysis
 
