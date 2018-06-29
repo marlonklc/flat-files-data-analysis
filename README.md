@@ -1,3 +1,5 @@
+https://travis-ci.org/marlonklc/flat-files-data-analysis.svg?branch=master
+
 # flat-files-data-analysis
 
 Project on spring boot to process files.
